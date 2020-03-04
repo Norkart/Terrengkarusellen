@@ -16,13 +16,13 @@ var vektorKart = L.tileLayer.webatlas({
 }).addTo(map);
 
 var hybrid = L.tileLayer.webatlas({
-    mapType: L.TileLayer.Webatlas.Type.HYBRID,
+    mapType: L.TileLayer.Webatlas.Type.AERIAL,
     apikey: apiKey
 });
 
 var baseMaps = {
-    vektorKart,
-    hybrid
+    "Kart": vektorKart,
+    "Flyfoto": hybrid
 }
 
 L.control.layers(baseMaps).addTo(map);
