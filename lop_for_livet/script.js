@@ -21,8 +21,8 @@ var hybrid = L.tileLayer.webatlas({
 });
 
 var baseMaps = {
-    "Kart": vektorKart,
-    "Flyfoto": hybrid
+    vektorKart,
+    hybrid
 }
 
 L.control.layers(baseMaps).addTo(map);
@@ -31,12 +31,12 @@ L.control.layers(baseMaps).addTo(map);
 loadGeoJson('coordinates.geojson', function () {   
     var geoJson = JSON.parse(this.responseText);
 
-    /* First visualising the short track -> first feature */
+    /* First reorder the short track -> first feature */
     var latLngsShortTrack = geoJson.features[0].geometry.coordinates.map(latLng => {
         return new L.LatLng(latLng[1], latLng[0]);
     });
 
-    /* Second visualising the long track -> second feature */
+    /* Second reorder the long track -> second feature */
     var latLngsLongTrack = geoJson.features[1].geometry.coordinates.map(latLngx => {
         return new L.LatLng(latLngx[1], latLngx[0]);
     });    
@@ -61,7 +61,6 @@ loadGeoJson('coordinates.geojson', function () {
         patterns: polylinePatterns
     }).addTo(map);
 
-    /* create polylines with color, then decorate with arrows */
     var polylineLongTrack = new L.polyline(
         latLngsLongTrack, { color: '#024EC6' }
     );
@@ -72,51 +71,27 @@ loadGeoJson('coordinates.geojson', function () {
         patterns: polylinePatterns
     }).addTo(map);
 
-    /* start and end point */
+    /* start point and short track labels as icons */
     var startpoint = latLngsShortTrack[0];
-    var endpoint = latLngsShortTrack[latLngsShortTrack.length - 1];
-
-    /* add marker to the end / start of the run */
-    var finishIcon = L.icon({
-        iconUrl: 'finish-flag.png',
-        iconSize: [16, 16],
-        iconAnchor: [6, 17]
+    
+    var iconShortTrack = L.divIcon({
+        html: '<span>Kort løype</span>',
+        className: 'label',
+        iconSize: [60, 15],
+        iconAnchor: [0, 25]
     });
 
-    L.marker(endpoint, { icon: finishIcon, zIndexOffset: 1000 }).addTo(map);
-    L.marker(startpoint, { icon: finishIcon, zIndexOffset: 1000 }).addTo(map);
+    var iconStart = L.divIcon({
+        html: '<span>Start / Mål</span>',
+        className: 'label',
+        iconSize: [60, 15],
+        iconAnchor: [-10, 0]
+    });
 
-    /* add a popup to mark the short track - find coordinates manually*/
-    L.popup({ closeOnClick: false, autoClose: false })
-        .setLatLng([58.16532142, 8.003])
-        .setContent('Kort løype')
-        .openOn(map);
-
-    L.popup({ closeOnClick: false, autoClose: false })
-        .setLatLng(startpoint)
-        .setContent('Start / Mål')
-        .openOn(map);
+    L.marker([58.16532142, 8.003],{icon: iconShortTrack}).addTo(map);
+    L.marker(startpoint, {icon:iconStart}).addTo(map);
 
 });
-
-/*loadGeoJson('coordinates.geojson').then(geoJson => {
-    const layer = L.geoJSON(geoJson, {
-        style: function (feature) {
-            return { color: 'red' };
-        }
-    });
-
-    layer.addTo(map);
-});*/
-
-
-/*L.geoJSON(data, {
-    style: function (feature) {
-        return {color: feature.properties.color};
-    }
-}).bindPopup(function (layer) {
-    return layer.feature.properties.description;
-}).addTo(map);*/
 
 //https://leafletjs.com/examples/layers-control/
 

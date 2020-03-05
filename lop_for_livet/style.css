@@ -31,3 +31,16 @@ main {
     height: 100%;
     width: 100%;
 }
+
+.label{
+    display: flex;
+    align-items: center;
+    color: #D56A32;
+    padding: 8px;
+    font-family: Arial, Tahoma, sans-serif;
+    font-weight: 700;
+    background-color: rgba(245, 245, 245, 0.9);
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #00000069;
+    offset: 10, 10;
+}
