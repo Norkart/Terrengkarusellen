@@ -69,7 +69,7 @@ loadGeoJson('coordinates.geojson', function () {
     var iconShortTrack = L.divIcon({
         html: '<span>Start kort løype</span>',
         className: 'label',
-        iconSize: [60, 15],
+        iconSize: [90, 15],
         iconAnchor: [0, 0]
     });
 

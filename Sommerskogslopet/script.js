@@ -71,14 +71,14 @@ loadGeoJson('coordinates.geojson', function () {
     var iconShortTrack = L.divIcon({
         html: '<span>Start 12 km</span>',
         className: 'label',
-        iconSize: [60, 15],
+        iconSize: [70, 15],
         iconAnchor: [-15, 0]
     });
 
     var iconStart = L.divIcon({
         html: '<span>Start 21 km</span>',
         className: 'label',
-        iconSize: [60, 15],
+        iconSize: [70, 15],
         iconAnchor: [0, 0]
     });
 
@@ -92,7 +92,7 @@ loadGeoJson('coordinates.geojson', function () {
     var iconEnd = L.divIcon({
         html: '<span>Mål / Parkering</span>',
         className: 'label',
-        iconSize: [60, 15],
+        iconSize: [90, 15],
         iconAnchor: [0 ,0]
     });
 
