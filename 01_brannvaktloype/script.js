@@ -22,34 +22,32 @@ L.control.layers(baseMaps).addTo(map);
 /* loading the GeoJSON file */
 loadGeoJson('coordinates.geojson', function () {   
     var geoJson = JSON.parse(this.responseText);
+    var track = L.geoJson(geoJson.features[0]);
 
-    /* First reorder the short track -> first feature */
-    var latLngsShortTrack = geoJson.features[0].geometry.coordinates.map(latLng => {
-        return new L.LatLng(latLng[1], latLng[0]);
-    });
+    /* add GeoJSON into the map */
+    track.addTo(map);
+
+    /* get an array of LatLng to use in the Polyline decorator */
+    var latLngsTrack = track.getLayers()[0].getLatLngs();
+
 
     /* zoom to track */
     map.fitBounds([
-        latLngsShortTrack,
+        latLngsTrack,
     ]);
 
-    /* create polylines with color, then decorate with arrows */
-    var polylineShortTrack = new L.polyline(
-        latLngsShortTrack, { color: '#1F75FE' }
-    );
-
-    polylineShortTrack.addTo(map);
-
+    /* define the wanted pattern */
     var polylinePatterns = [
         { offset: 25, repeat: 100, symbol: L.Symbol.arrowHead({ pixelSize: 15, pathOptions: { fillOpacity: 1, weight: 0 } }) }
     ]
 
-    L.polylineDecorator(polylineShortTrack, {
+    /* set decorator to coordinates in an array latLngsTrack, add to map */
+    L.polylineDecorator(latLngsTrack, {
         patterns: polylinePatterns
     }).addTo(map);
 
     /* start point and short track labels as icons */
-    var startpoint = latLngsShortTrack[0];
+    var startpoint = latLngsTrack[0];
 
     var iconStart = L.divIcon({
         html: '<span>Start / Mål</span>',
